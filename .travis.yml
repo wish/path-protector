@@ -1,0 +1,21 @@
+language: go
+
+# use container infrastructure
+sudo: false
+
+# cache go build cache and pkg mod
+cache:
+  directories:
+    - $HOME/.cache/go-build
+    - $HOME/gopath/pkg/mod
+
+go:
+  - "1.13.x"
+
+install:
+  - go get golang.org/x/tools/cmd/goimports
+
+script:
+  - make fmt && git diff --exit-code
+  - make imports && git diff --exit-code
+  - make test
